@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Records List - Capital Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style2.css">
+  <!---- <style>
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .page-header h2 {
+            margin: 0;
+        }
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        /* TAB BUTTONS */
+        .tab-group {
+            display: flex;
+            gap: 0;
+            border: 1px solid #052377;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .tab-btn {
+            margin: 0;
+            width: auto;
+            padding: 8px 18px;
+            background: white;
+            color: #052377;
+            border: none;
+            border-radius: 0;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .tab-btn:hover,
+        .tab-btn.active {
+            background: #052377;
+            color: white;
+        }
+        /* SEARCH & FILTER */
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-bar input,
+        .filter-bar select {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 13px;
+            outline: none;
+            transition: 0.2s;
+        }
+        .filter-bar input:focus,
+        .filter-bar select:focus {
+            border-color: #052377;
+        }
+        .filter-bar input {
+            width: 220px;
+        }
+        /* TABLE */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+        thead tr {
+            background: #052377;
+            color: white;
+        }
+        thead th {
+            padding: 12px 14px;
+            text-align: left;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        tbody tr {
+            border-bottom: 1px solid #e5e7eb;
+            transition: background 0.15s;
+        }
+        tbody tr:hover {
+            background: #f0f4ff;
+        }
+        tbody td {
+            padding: 11px 14px;
+            color: #374151;
+            white-space: nowrap;
+        }
+        /* BADGES */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        .badge-capital {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        .badge-asset {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .badge-active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .badge-inactive {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        /* ACTION BUTTONS */
+        .action-btn {
+            margin: 0;
+            width: auto;
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            transition: 0.2s;
+        }
+        .btn-view {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+        .btn-view:hover {
+            background: #dbeafe;
+        }
+        .btn-delete {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+        .btn-delete:hover {
+            background: #fee2e2;
+        }
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9ca3af;
+        }
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 14px;
+            display: block;
+            color: #d1d5db;
+        }
+        .empty-state p {
+            font-size: 15px;
+        }
+        .empty-state a {
+            display: inline-block;
+            margin-top: 14px;
+            padding: 9px 20px;
+            background: #052377;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+        .empty-state a:hover {
+            background: #0a35a8;
+        }
+        /* SUMMARY CARDS */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+        .summary-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .summary-card .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .icon-blue { background: #dbeafe; color: #1d4ed8; }
+        .icon-green { background: #d1fae5; color: #065f46; }
+        .icon-yellow { background: #fef3c7; color: #92400e; }
+        .icon-red { background: #fee2e2; color: #991b1b; }
+        .summary-card .info .num {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111827;
+            line-height: 1;
+        }
+        .summary-card .info .label {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 3px;
+        }
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.open {
+            display: flex;
+        }
+        .modal {
+            background: white;
+            border-radius: 10px;
+            padding: 28px;
+            width: 480px;
+            max-width: 95vw;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            animation: slideUp 0.2s ease;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .modal h3 {
+            margin-bottom: 18px;
+            color: #052377;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+        .modal-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .modal-row .modal-label {
+            font-weight: 600;
+            color: #374151;
+            font-size: 13px;
+            width: 140px;
+            flex-shrink: 0;
+        }
+        .modal-row .modal-value {
+            font-size: 13px;
+            color: #6b7280;
+        }
+        .modal-close {
+            margin-top: 18px;
+            padding: 9px 22px;
+            background: #052377;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            width: auto;
+        }
+        .modal-close:hover {
+            background: #0a35a8;
+        }
+        /* NAV LINK COLOR FIX */
+        .sidebar a.nav-link {
+            color: inherit;
+            text-decoration: none;
+            display: block;
+        }
+        .sidebar li:hover a,
+        .sidebar .active a {
+            color: #052377;
+        }
+        .sidebar li a {
+            color: white;
+        }
+        /* RECORDS COUNT */
+        .records-count {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+        .export-btn {
+            margin: 0;
+            width: auto;
+            padding: 8px 16px;
+            font-size: 13px;
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .export-btn:hover {
+            background: #047857;
+        }
+    </style>-->
+</head>
+<body>
+<!-- NAVBAR -->
+<div class="navbar">
+    <h2><i class="fa-solid fa-chart-line"></i> Capital Management</h2>
+    <div><i class="fa-solid fa-user"></i> Admin</div>
+</div>
+<div class="dashboard">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <ul>
+            <li>
+                <a href="dashboard.html" class="nav-link">
+                    <i class="fa-solid fa-house"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="capitalmaster.html" class="nav-link">
+                    <i class="fa-solid fa-building-columns"></i> Capital Master
+                </a>
+            </li>
+            <li>
+                <a href="index.html" class="nav-link">
+                    <i class="fa-solid fa-gear"></i> Asset Master
+                </a>
+            </li>
+            <li class="active">
+                <a href="list.html" class="nav-link">
+                    <i class="fa-solid fa-list"></i> Records List
+                </a>
+            </li>
+            <li>
+                <a href="aboutus.html" class="nav-link">
+                    <i class="fa-solid fa-circle-info"></i> About Us
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- MAIN CONTENT -->
+    <div class="content">
+        <!-- SUMMARY CARDS -->
+        <div class="summary-cards" id="summaryCards"></div>
+        <div class="card">
+            <div class="page-header">
+                <h2><i class="fa-solid fa-list"></i> All Records</h2>
+                <div class="header-actions">
+                    <div class="tab-group">
+                        <button class="tab-btn active" onclick="filterTab('all')">All</button>
+                        <button class="tab-btn" onclick="filterTab('capital')">Capital</button>
+                        <button class="tab-btn" onclick="filterTab('asset')">Asset</button>
+                    </div>
+                    <button class="export-btn" onclick="exportCSV()">
+                        <i class="fa-solid fa-download"></i> Export CSV
+                    </button>
+                </div>
+            </div>
+            <!-- FILTER BAR -->
+            <div class="filter-bar">
+                <input type="text" id="searchInput" placeholder="&#128269; Search records..." oninput="renderTable()">
+                <select id="typeFilter" onchange="renderTable()">
+                    <option value="">All Types</option>
+                    <option>Asset</option>
+                    <option>Licenses</option>
+                    <option>Stationary</option>
+                    <option>Tools & Instruments</option>
+                    <option>Tools and Instruments</option>
+                    <option>Electrical Equipment</option>
+                    <option>Plant & Machinery</option>
+                    <option>Plant and Machinery</option>
+                </select>
+                <select id="statusFilter" onchange="renderTable()">
+                    <option value="">All Status</option>
+                    <option>Active</option>
+                    <option>Inactive</option>
+                </select>
+            </div>
+            <div class="records-count" id="recordsCount"></div>
+            <!-- TABLE -->
+            <div class="table-wrapper">
+                <table id="recordsTable">
+                    <thead>
+                        <tr id="tableHead"></tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+                <div class="empty-state" id="emptyState" style="display:none;">
+                    <i class="fa-solid fa-inbox"></i>
+                    <p>No records found.</p>
+                    <a href="capitalmaster.html">Add Capital Record</a>
+                    &nbsp;
+                    <a href="index.html" style="margin-left:8px;">Add Asset Record</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- VIEW MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+        <h3 id="modalTitle"><i class="fa-solid fa-eye"></i> Record Details</h3>
+        <div id="modalBody"></div>
+        <button class="modal-close" onclick="closeModal()">Close</button>
+    </div>
+</div>
+<footer>
+    © 2026 Capital Management System | All Rights Reserved
+</footer>
+<script>
+/*STORAGE KEYS */
+const CAPITAL_KEY = 'capitalRecords';
+const ASSET_KEY   = 'assetRecords';
+let currentTab = 'all';
+/* LOAD ALL RECORDS */
+function getAllRecords() {
+    const capitals = JSON.parse(localStorage.getItem(CAPITAL_KEY) || '[]');
+    const assets   = JSON.parse(localStorage.getItem(ASSET_KEY)   || '[]');
+    return [...capitals, ...assets];
+}
+/*SUMMARY CARDS */
+function renderSummary() {
+    const all      = getAllRecords();
+    const capitals = all.filter(r => r.source === 'capital');
+    const assets   = all.filter(r => r.source === 'asset');
+    const active   = all.filter(r => r.status === 'Active');
+    document.getElementById('summaryCards').innerHTML = `
+        <div class="summary-card">
+            <div class="icon icon-blue"><i class="fa-solid fa-layer-group"></i></div>
+            <div class="info"><div class="num">${all.length}</div><div class="label">Total Records</div></div>
+        </div>
+        <div class="summary-card">
+            <div class="icon icon-yellow"><i class="fa-solid fa-building-columns"></i></div>
+            <div class="info"><div class="num">${capitals.length}</div><div class="label">Capital Records</div></div>
+        </div>
+        <div class="summary-card">
+            <div class="icon icon-green"><i class="fa-solid fa-box"></i></div>
+            <div class="info"><div class="num">${assets.length}</div><div class="label">Asset Records</div></div>
+        </div>
+        <div class="summary-card">
+            <div class="icon icon-red"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="info"><div class="num">${active.length}</div><div class="label">Active</div></div>
+        </div>
+    `;
+}
+/* TABLE COLUMNS PER TAB */
+function getColumns(tab) {
+    if (tab === 'capital') {
+        return ['#', 'Source', 'Capital ID', 'Capital Type', 'Financial Year', 'Allocated', 'Used', 'Remaining', 'Status', 'Remarks', 'Actions'];
+    } else if (tab === 'asset') {
+        return ['#', 'Source', 'Request ID', 'Requester Name', 'Request Date', 'Qty', 'Request To', 'Capital Type', 'Remarks', 'Actions'];
+    } else {
+        return ['#', 'Source', 'ID / Request ID', 'Name / Type', 'Date / Fin. Year', 'Type / Requester', 'Status / Qty', 'Remarks', 'Actions'];
+    }
+}
+/* FILTER RECORDS*/
+function getFiltered() {
+    let all = getAllRecords();
+    // Tab filter
+    if (currentTab === 'capital') all = all.filter(r => r.source === 'capital');
+    if (currentTab === 'asset')   all = all.filter(r => r.source === 'asset');
+    // Search filter
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    if (search) {
+        all = all.filter(r => JSON.stringify(r).toLowerCase().includes(search));
+    }
+    // Type filter
+    const typeF = document.getElementById('typeFilter').value;
+    if (typeF) {
+        all = all.filter(r => (r.capitalType || '').toLowerCase().includes(typeF.toLowerCase()));
+    }
+    // Status filter
+    const statusF = document.getElementById('statusFilter').value;
+    if (statusF) {
+        all = all.filter(r => (r.status || r.qty || '') === statusF);
+    }
+    return all;
+}
+/* RENDER TABLE */
+function renderTable() {
+    const records = getFiltered();
+    const cols    = getColumns(currentTab);
+    // Header
+    document.getElementById('tableHead').innerHTML =
+        cols.map(c => `<th>${c}</th>`).join('');
+    // Count
+    document.getElementById('recordsCount').textContent =
+        `Showing ${records.length} record${records.length !== 1 ? 's' : ''}`;
+    const tbody = document.getElementById('tableBody');
+    if (records.length === 0) {
+        tbody.innerHTML = '';
+        document.getElementById('emptyState').style.display = 'block';
+        document.getElementById('recordsTable').style.display = 'none';
+        return;
+    }
+    document.getElementById('emptyState').style.display = 'none';
+    document.getElementById('recordsTable').style.display = 'table';
+    tbody.innerHTML = records.map((r, i) => {
+        const sourceBadge = r.source === 'capital'
+            ? `<span class="badge badge-capital"><i class="fa-solid fa-building-columns"></i> Capital</span>`
+            : `<span class="badge badge-asset"><i class="fa-solid fa-box"></i> Asset</span>`;
+        const statusBadge = r.status
+            ? `<span class="badge ${r.status === 'Active' ? 'badge-active' : 'badge-inactive'}">${r.status}</span>`
+            : `<span style="color:#9ca3af">—</span>`;
+        let cells = '';
+        if (currentTab === 'capital' && r.source === 'capital') {
+            cells = `
+                <td>${i + 1}</td>
+                <td>${sourceBadge}</td>
+                <td>${r.capitalId || '—'}</td>
+                <td>${r.capitalType || '—'}</td>
+                <td>${r.financialYear || '—'}</td>
+                <td>${r.allocated !== undefined ? '₹' + Number(r.allocated).toLocaleString() : '—'}</td>
+                <td>${r.used !== undefined ? '₹' + Number(r.used).toLocaleString() : '—'}</td>
+                <td>${r.remaining !== undefined ? '₹' + Number(r.remaining).toLocaleString() : '—'}</td>
+                <td>${statusBadge}</td>
+                <td>${r.remarks || '—'}</td>
+            `;
+        } else if (currentTab === 'asset' && r.source === 'asset') {
+            cells = `
+                <td>${i + 1}</td>
+                <td>${sourceBadge}</td>
+                <td>${r.requestId || '—'}</td>
+                <td>${r.requesterName || '—'}</td>
+                <td>${r.requestDate || '—'}</td>
+                <td>${r.qty || '—'}</td>
+                <td>${r.requestTo || '—'}</td>
+                <td>${r.capitalType || '—'}</td>
+                <td>${r.remarks || '—'}</td>
+            `;
+        } else {
+            // Combined "All" view
+            if (r.source === 'capital') {
+                cells = `
+                    <td>${i + 1}</td>
+                    <td>${sourceBadge}</td>
+                    <td>${r.capitalId || '—'}</td>
+                    <td>${r.capitalType || '—'}</td>
+                    <td>${r.financialYear || '—'}</td>
+                    <td>${r.capitalType || '—'}</td>
+                    <td>${statusBadge}</td>
+                    <td>${r.remarks || '—'}</td>
+                `;
+            } else {
+                cells = `
+                    <td>${i + 1}</td>
+                    <td>${sourceBadge}</td>
+                    <td>${r.requestId || '—'}</td>
+                    <td>${r.requesterName || '—'}</td>
+                    <td>${r.requestDate || '—'}</td>
+                    <td>${r.capitalType || '—'}</td>
+                    <td>${r.qty || '—'}</td>
+                    <td>${r.remarks || '—'}</td>
+                `;
+            }
+        }
+        return `<tr>
+            ${cells}
+            <td>
+                <button class="action-btn btn-view" onclick='viewRecord(${JSON.stringify(JSON.stringify(r))})'>
+                    <i class="fa-solid fa-eye"></i> View
+                </button>
+                &nbsp;
+                <button class="action-btn btn-delete" onclick="deleteRecord('${r.source}', '${r._id}')">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </td>
+        </tr>`;
+    }).join('');
+}
+/* TAB SWITCH */
+function filterTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+        btn.classList.toggle('active', ['all','capital','asset'][i] === tab);
+    });
+    renderTable();
+}
+/*VIEW MODAL */
+function viewRecord(jsonStr) {
+    const r = JSON.parse(jsonStr);
+    const isCapital = r.source === 'capital';
+    document.getElementById('modalTitle').innerHTML = isCapital
+        ? '<i class="fa-solid fa-building-columns"></i> Capital Record Details'
+        : '<i class="fa-solid fa-box"></i> Asset Request Details';
+    const rows = isCapital ? [
+        ['Capital ID', r.capitalId],
+        ['Capital Type', r.capitalType],
+        ['Financial Year', r.financialYear],
+        ['Fund Allocated', r.allocated !== undefined ? '₹' + Number(r.allocated).toLocaleString() : '—'],
+        ['Fund Used', r.used !== undefined ? '₹' + Number(r.used).toLocaleString() : '—'],
+        ['Remaining Fund', r.remaining !== undefined ? '₹' + Number(r.remaining).toLocaleString() : '—'],
+        ['Status', r.status],
+        ['Remarks', r.remarks || '—'],
+        ['Saved On', r.savedOn || '—'],
+    ] : [
+        ['Request ID', r.requestId],
+        ['Requester Name', r.requesterName],
+        ['Request Date', r.requestDate],
+        ['Quantity', r.qty],
+        ['Request To', r.requestTo],
+        ['Capital Type', r.capitalType],
+        ['Remarks', r.remarks || '—'],
+        ['Saved On', r.savedOn || '—'],
+    ];
+    document.getElementById('modalBody').innerHTML = rows.map(([label, val]) => `
+        <div class="modal-row">
+            <div class="modal-label">${label}</div>
+            <div class="modal-value">${val || '—'}</div>
+        </div>
+    `).join('');
+    document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+}
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+/* DELETE RECORD */
+function deleteRecord(source, id) {
+    if (!confirm('Are you sure you want to delete this record?')) return;
+    const key = source === 'capital' ? CAPITAL_KEY : ASSET_KEY;
+    let records = JSON.parse(localStorage.getItem(key) || '[]');
+    records = records.filter(r => r._id !== id);
+    localStorage.setItem(key, JSON.stringify(records));
+    renderSummary();
+    renderTable();
+}/* EXPORT CSV*/
+function exportCSV() {
+    const records = getFiltered();
+    if (!records.length) { alert('No records to export.'); return; }
+    const headers = ['Source', 'ID', 'Type', 'Financial Year / Date', 'Allocated / Qty', 'Used / RequestTo', 'Remaining', 'Status', 'Remarks', 'Saved On'];
+    const rows = records.map(r => {
+        if (r.source === 'capital') {
+            return [
+                'Capital', r.capitalId, r.capitalType, r.financialYear,
+                r.allocated, r.used, r.remaining, r.status, r.remarks, r.savedOn
+            ];
+        } else {
+            return [
+                'Asset', r.requestId, r.capitalType, r.requestDate,
+                r.qty, r.requestTo, '', '', r.remarks, r.savedOn
+            ];
+        }
+    });
+    const csv = [headers, ...rows].map(row =>
+        row.map(v => `"${(v || '').toString().replace(/"/g, '""')}"`).join(',')
+    ).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url;
+    a.download = 'records_export.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+/*INIT */
+renderSummary();
+renderTable();
+</script>
+</body>
+</html>

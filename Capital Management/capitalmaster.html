@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Capital Master Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+<!-- NAVBAR -->
+<div class="navbar">
+    <h2><i class="fa-solid fa-chart-line"></i> Capital Management</h2>
+    <div><i class="fa-solid fa-user"></i> Admin</div>
+</div>
+<div class="dashboard">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <ul>
+            <li>
+                <a href="dashboard.html" class="nav-link">
+                    <i class="fa-solid fa-house"></i> Dashboard
+                </a>
+            </li>
+            <li class="active">
+                <a href="capitalmaster.html" class="nav-link">
+                    <i class="fa-solid fa-building-columns"></i> Capital Master
+                </a>
+            </li>
+            <li>
+                <a href="index.html" class="nav-link">
+                    <i class="fa-solid fa-gear"></i> Asset Master
+                </a>
+            </li>
+            <li>
+                <a href="list.html" class="nav-link">
+                    <i class="fa-solid fa-list"></i> Records List
+                </a>
+            </li>
+            <li>
+                <a href="aboutus.html" class="nav-link">
+                    <i class="fa-solid fa-circle-info"></i> About Us
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- MAIN CONTENT -->
+    <div class="content">
+        <div class="card">
+            <h2>Capital Master</h2>
+            <form id="capitalForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Capital ID</label>
+                        <input type="text" required>
+                        <small class="error">Required field</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Capital Type</label>
+                        <select required>
+                            <option value="">--Select--</option>
+                            <option>Asset</option>
+                            <option>Licenses</option>
+                            <option>Stationary</option>
+                            <option>Tools & Instruments</option>
+                            <option>Electrical Equipment</option>
+                            <option>Plant & Machinery</option>
+                        </select>
+                        <small class="error">Required field</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Financial Year</label>
+                        <input type="text" placeholder="2025-2026" required>
+                        <small class="error">Required field</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Fund Allocated</label>
+                        <input type="number" id="allocated" oninput="calculateRemaining()" required>
+                        <small class="error">Required field</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Fund Used</label>
+                        <input type="number" id="used" oninput="calculateRemaining()" required>
+                        <small class="error">Required field</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Remaining Fund</label>
+                        <input type="number" id="remaining" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select>
+                            <option>Active</option>
+                            <option>Inactive</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Remarks</label>
+                        <textarea rows="3"></textarea>
+                    </div>
+                </div>
+                <button type="submit">Save Capital</button>
+            </form>
+        </div>
+    </div>
+</div>
+<footer>
+    © 2026 Capital Management System | All Rights Reserved
+</footer>
+<script>
+function calculateRemaining() {
+    let allocated = parseFloat(document.getElementById("allocated").value) || 0;
+    let used = parseFloat(document.getElementById("used").value) || 0;
+    document.getElementById("remaining").value = allocated - used;
+}
+document.getElementById("capitalForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    let inputs = this.querySelectorAll("input[required], select[required]");
+    let valid = true;
+    inputs.forEach(input => {
+        if(!input.value){
+            input.nextElementSibling.style.display = "block";
+            valid = false;
+        } else {
+            input.nextElementSibling.style.display = "none";
+        }
+    });
+    if(!valid) return;
+    // Collect form values
+    const allInputs = this.querySelectorAll("input, select, textarea");
+    const formData = {
+        source:        'capital',
+        _id:           Date.now().toString(),
+        capitalId:     allInputs[0].value,
+        capitalType:   allInputs[1].value,
+        financialYear: allInputs[2].value,
+        allocated:     allInputs[3].value,
+        used:          allInputs[4].value,
+        remaining:     document.getElementById("remaining").value,
+        status:        allInputs[6].value,
+        remarks:       allInputs[7].value,
+        savedOn:       new Date().toLocaleString()
+    };
+    // Save to localStorage
+    let records = JSON.parse(localStorage.getItem('capitalRecords') || '[]');
+    records.push(formData);
+    localStorage.setItem('capitalRecords', JSON.stringify(records));
+    alert('Capital record saved successfully!');
+    this.reset();
+    document.getElementById("remaining").value = '';
+});
+</script>
+</body>
+</html>
