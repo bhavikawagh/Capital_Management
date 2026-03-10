@@ -91,7 +91,7 @@
         <input type="text" placeholder="Search records, assets…" id="globalSearch" oninput="handleSearch(this.value)">
     </div>
     <div class="topbar-actions">
-        <div class="icon-btn" title="Profile" onclick="openModal('profileModal')" id="profileBtn">Profile <i class="fa-solid fa-user"></i></div>
+        <div class="icon-btn" title="Login" onclick="window.location.href='loginpage.html'">Login <i class="fa-solid fa-user"></i></div>
         <div class="icon-btn" title="About" onclick="window.location.href='aboutus.html'">About Us <i class="fa-solid fa-circle-info"></i></div>
         <div class="icon-btn" title="Contact Us" onclick="openModal('contactModal')">Contact Us <i class="fa-solid fa-envelope"></i></div>
     </div>
@@ -273,15 +273,16 @@
         <div class="modal-head"><div class="modal-head-icon"><i class="fa-solid fa-user"></i></div><div><h3>User Profile</h3><p>Your account information</p></div></div>
         <div class="modal-body">
             <div style="text-align:center;margin-bottom:18px;">
-                <div id="userAvatar" style="width:70px;height:70px;background:linear-gradient(135deg,#f59e0b,#fbbf24);border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:26px;color:white;box-shadow:0 6px 16px rgba(245,158,11,.35);">AR</div>
-                <div id="userName" style="font-family:'Syne',sans-serif;font-weight:700;font-size:16px;">Aryan Rao</div>
-                <div id="userRole" style="font-size:12px;color:var(--muted);">User</div>
+                <div style="width:70px;height:70px;background:linear-gradient(135deg,#f59e0b,#fbbf24);border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:26px;color:white;box-shadow:0 6px 16px rgba(245,158,11,.35);">AR</div>
+                <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:16px;">Aryan Rao</div>
+                <div style="font-size:12px;color:var(--muted);">Administrator</div>
             </div>
-            <div class="modal-info-row"><div class="modal-info-label"><i class="fa-solid fa-envelope" style="color:var(--accent);margin-right:6px;"></i>Email</div><div id="userEmail" class="modal-info-val">aryan@company.com</div></div>
-            <div class="modal-info-row"><div class="modal-info-label"><i class="fa-solid fa-user" style="color:var(--emerald);margin-right:6px;"></i>Username</div><div id="userUsername" class="modal-info-val">aryan</div></div>
-            <div class="modal-info-row"><div class="modal-info-label"><i class="fa-solid fa-calendar" style="color:var(--gold);margin-right:6px;"></i>Login Time</div><div id="userLoginTime" class="modal-info-val">-</div></div>
+            <div class="modal-info-row"><div class="modal-info-label"><i class="fa-solid fa-envelope" style="color:var(--accent);margin-right:6px;"></i>Email</div><div class="modal-info-val">aryan@company.com</div></div>
+            <div class="modal-info-row"><div class="modal-info-label"><i class="fa-solid fa-shield-halved" style="color:var(--emerald);margin-right:6px;"></i>Role</div><div class="modal-info-val">System Administrator</div></div>
+            <div class="modal-info-row"><div class="modal-info-label"><i class="fa-solid fa-calendar" style="color:var(--gold);margin-right:6px;"></i>Joined</div><div class="modal-info-val">January 2025</div></div>
+            <div class="modal-info-row"><div class="modal-info-label"><i class="fa-solid fa-building" style="color:var(--navy);margin-right:6px;"></i>Department</div><div class="modal-info-val">Finance & Operations</div></div>
         </div>
-        <div class="modal-foot"><button class="btn-cancel" onclick="handleLogout()"><i class="fa-solid fa-sign-out-alt"></i> Logout</button><button class="btn-primary" onclick="closeModal('profileModal')">Close</button></div>
+        <div class="modal-foot"><button class="btn-cancel" onclick="closeModal('profileModal')">Close</button><button class="btn-primary">Edit Profile</button></div>
     </div>
 </div>
 
@@ -524,62 +525,7 @@ setInterval(function() {
     if (el) el.textContent = mins > 0 ? 'Active (' + mins + 'm)' : 'Active (< 1m)';
 }, 30000);
 
-/* ─────────────── USER PROFILE MANAGEMENT ─────────────── */
-function loadUserProfile() {
-    var currentUser = localStorage.getItem('currentUser');
-    
-    // If no user logged in, redirect to login
-    if (!currentUser) {
-        window.location.href = 'loginpage.html';
-        return;
-    }
-    
-    try {
-        var userData = JSON.parse(currentUser);
-        
-        // Update profile button with user name
-        var profileBtn = document.getElementById('profileBtn');
-        if (profileBtn) {
-            profileBtn.innerHTML = userData.name + ' <i class="fa-solid fa-user"></i>';
-        }
-        
-        // Generate avatar initials
-        var nameParts = userData.name.split(' ');
-        var initials = (nameParts[0][0] || 'U') + (nameParts[1] ? nameParts[1][0] : nameParts[0][1] || '');
-        
-        // Get avatar colors
-        var colors = ['linear-gradient(135deg, #f59e0b, #fbbf24)', 'linear-gradient(135deg, #3b82f6, #1d4ed8)', 'linear-gradient(135deg, #10b981, #059669)', 'linear-gradient(135deg, #8b5cf6, #7c3aed)', 'linear-gradient(135deg, #ec4899, #db2777)'];
-        var colorIndex = userData.id % colors.length;
-        
-        // Update profile modal
-        var avatarEl = document.getElementById('userAvatar');
-        if (avatarEl) {
-            avatarEl.textContent = initials.toUpperCase();
-            avatarEl.style.background = colors[colorIndex];
-        }
-        
-        document.getElementById('userName').textContent = userData.name;
-        document.getElementById('userRole').textContent = 'Active User';
-        document.getElementById('userEmail').textContent = userData.email;
-        document.getElementById('userUsername').textContent = userData.username;
-        document.getElementById('userLoginTime').textContent = userData.loginTime;
-        
-    } catch (e) {
-        console.error('Error loading user profile:', e);
-        window.location.href = 'loginpage.html';
-    }
-}
-
-function handleLogout() {
-    if (confirm('Are you sure you want to logout?')) {
-        localStorage.removeItem('currentUser');
-        alert('You have been logged out successfully!');
-        window.location.href = 'loginpage.html';
-    }
-}
-
 /* ─────────────── INIT ─────────────── */
-loadUserProfile();
 renderStats();
 renderRecentTable();
 renderCapitalTable();

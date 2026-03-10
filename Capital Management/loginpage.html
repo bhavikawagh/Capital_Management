@@ -1,87 +1,358 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login - Asset Management System</title>
-    <script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <style>body {
-        margin: 0;
-        padding: 0;
-        font-family: Arial, Helvetica, sans-serif;
-        background: linear-gradient(135deg, #052377, #052377);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
-    .login-container {
-        background: #ffffff;
-        padding: 40px;
-        width: 350px;
-        border-radius: 12px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        text-align: center;
-    }
-    .login-container h2 {
-        margin-bottom: 10px;
-        color: #333;
-    }
-    .login-container p {
-        color: #666;
-        font-size: 14px;
-        margin-bottom: 30px;
-    }
-    .login-btn {
-        width: 100%;
-        padding: 12px;
-        background-color: #0078D4;
-        border: none;
-        color: white;
-        font-size: 16px;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-    .login-btn:hover {
-        background-color: #005a9e;
-    }
-    .footer-text {
-        margin-top: 20px;
-        font-size: 12px;
-        color: #999;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Capital Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #d4e6f1 0%, #85c1e2 50%, #5dade2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .login-wrapper {
+            width: 100%;
+            max-width: 420px;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .login-header {
+            background: linear-gradient(135deg, #052377, #0a35a8);
+            padding: 30px 24px;
+            text-align: center;
+            color: white;
+        }
+        
+        .login-header i {
+            font-size: 40px;
+            margin-bottom: 12px;
+            display: block;
+        }
+        
+        .login-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        
+        .login-header p {
+            font-size: 13px;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .login-body {
+            padding: 30px 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #64748b;
+            margin-bottom: 6px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            outline: none;
+            transition: 0.2s;
+            background: #f8fafc;
+        }
+        
+        .form-group input:focus {
+            border-color: #3b82f6;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+        }
+        
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .remember-forgot a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        
+        .remember-forgot a:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 11px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+        }
+        
+        .btn-login {
+            background: linear-gradient(135deg, #052377, #0a35a8);
+            color: white;
+        }
+        
+        .btn-login:hover {
+            background: linear-gradient(135deg, #0a35a8, #1d4ed8);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(5,35,119,0.3);
+        }
+        
+        .btn-cancel {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+        
+        .btn-cancel:hover {
+            background: #cbd5e1;
+        }
+        
+        .login-footer {
+            text-align: center;
+            padding: 16px 24px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 13px;
+            color: #64748b;
+        }
+        
+        .login-footer p {
+            margin: 0;
+        }
+        
+        .login-footer a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            margin-bottom: 18px;
+            display: none;
+            border-left: 4px solid #991b1b;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            margin-bottom: 18px;
+            display: none;
+            border-left: 4px solid #065f46;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Asset Management System</h2>
-        <p>Sign in using your Microsoft Account</p>
-        <button class="login-btn" onclick="signIn()">
-            Login with Microsoft
-        </button>
-        <div class="footer-text">
-            © 2026 Asset System
+    <div class="login-wrapper">
+        <div class="login-card">
+            <!-- HEADER -->
+            <div class="login-header">
+                <i class="fa-solid fa-chart-line"></i>
+                <h2>Capital Management</h2>
+                <p>Blue Energy Motors</p>
+            </div>
+            
+            <!-- BODY -->
+            <div class="login-body">
+                <div class="error-message" id="errorMsg"></div>
+                <div class="success-message" id="successMsg"></div>
+                
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="username">Username or Email</label>
+                        <input type="text" id="username" placeholder="Enter username or email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <div class="remember-forgot">
+                        <label style="text-transform: capitalize; font-weight: 500; color: #374151;">
+                            <input type="checkbox" id="rememberMe" style="margin-right: 6px; cursor: pointer;">
+                            Remember me
+                        </label>
+                        <a href="javascript:void(0)" onclick="handleForgotPassword()">
+                            <i class="fa-solid fa-lock"></i> Forgot Password?
+                        </a>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-login">
+                            <i class="fa-solid fa-sign-in-alt"></i> Login
+                        </button>
+                        <button type="button" class="btn btn-cancel" onclick="handleCancel()">
+                            <i class="fa-solid fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- FOOTER -->
+            <div class="login-footer">
+                <p>Don't have an account? <a href="javascript:void(0)" onclick="handleRegister()">Register here</a></p>
+                <p style="margin-top: 8px; color: #94a3b8;">&#169; 2026 Capital Management System</p>
+            </div>
         </div>
     </div>
-   <script>
-        const msalConfig = {
-            auth: {
-                clientId: "YOUR_CLIENT_ID",
-                authority: "https://login.microsoftonline.com/YOUR_TENANT_ID",
-                redirectUri: window.location.href
+
+    <script>
+        // Demo user database (in real app, this would be in backend)
+        const demoUsers = [
+            { id: 1, name: 'Rajesh Kumar', email: 'rajesh@capitalms.com', username: 'rajesh', password: 'demo@123' },
+            { id: 2, name: 'Priya Singh', email: 'priya@capitalms.com', username: 'priya', password: 'demo@123' },
+            { id: 3, name: 'Amit Patel', email: 'amit@capitalms.com', username: 'amit', password: 'demo@123' },
+            { id: 4, name: 'Neha Sharma', email: 'neha@capitalms.com', username: 'neha', password: 'demo@123' }
+        ];
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const rememberMe = document.getElementById('rememberMe').checked;
+            const errorMsg = document.getElementById('errorMsg');
+            const successMsg = document.getElementById('successMsg');
+            
+            errorMsg.classList.remove('show');
+            successMsg.classList.remove('show');
+            
+            // Validation
+            if (!username || !password) {
+                errorMsg.textContent = 'Please enter username/email and password';
+                errorMsg.classList.add('show');
+                return;
             }
-        };
-        const msalInstance = new msal.PublicClientApplication(msalConfig);
-        function signIn() {
-            msalInstance.loginPopup({
-                scopes: ["user.read"]
-            }).then(response => {
-                alert("Welcome " + response.account.username);
-                window.location.href = "dashboard.html";
-            }).catch(error => {
-                console.log(error);
-            });
+            
+            // Check credentials
+            const user = demoUsers.find(u => 
+                (u.username === username || u.email === username) && u.password === password
+            );
+            
+            if (!user) {
+                errorMsg.textContent = 'Invalid username/email or password';
+                errorMsg.classList.add('show');
+                return;
+            }
+            
+            // Store user session
+            const userData = {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                username: user.username,
+                loginTime: new Date().toLocaleString(),
+                rememberMe: rememberMe
+            };
+            
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+            
+            // Success message
+            successMsg.textContent = '✓ Login successful! Redirecting to dashboard...';
+            successMsg.classList.add('show');
+            
+            // Redirect after 1 second
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1000);
         }
+        
+        function handleCancel() {
+            if (confirm('Are you sure you want to cancel?')) {
+                window.location.href = 'homepage.html';
+            }
+        }
+        
+        function handleForgotPassword() {
+            alert('Password Reset Feature:\nPlease contact support at support@capitalms.com\nor call +91 98765 43210\n\nDemo Users:\nUsername: rajesh, priya, amit, or neha\nPassword: demo@123');
+        }
+        
+        function handleRegister() {
+            alert('Registration Feature Coming Soon!\n\nFor now, you can use demo accounts:\n\n' +
+                'Username: rajesh | Password: demo@123\n' +
+                'Username: priya | Password: demo@123\n' +
+                'Username: amit | Password: demo@123\n' +
+                'Username: neha | Password: demo@123');
+        }
+        
+        // Check if already logged in
+        window.addEventListener('load', function() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (currentUser) {
+                const userData = JSON.parse(currentUser);
+                if (userData.rememberMe) {
+                    document.getElementById('username').value = userData.username;
+                    document.getElementById('rememberMe').checked = true;
+                }
+            }
+        });
     </script>
 </body>
 </html> 
